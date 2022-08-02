@@ -1,7 +1,13 @@
 const socket = io.connect('localhost:3000')
 let userList = document.getElementById("connected")
 
-socket.on('newUser', (name) => {
+// socket.on('newUser', (name) => {
+//     let pUser = document.createElement("p")
+//     pUser.innerText = name
+//     userList.appendChild(pUser)
+// })
+
+socket.on('user connect', (name) => {
     let pUser = document.createElement("p")
     pUser.innerText = name
     userList.appendChild(pUser)
