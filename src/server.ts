@@ -14,8 +14,8 @@ import {Connected} from "./class/Connected";
 // Error.stackTraceLimit = Infinity;
 
 const credentials = { key: undefined, cert: undefined }
-credentials.key = fs.readFileSync('./src/openssl/192.168.1.120.key', {encoding:'utf8', flag:'r'})
-credentials.cert = fs.readFileSync('./src/openssl/192.168.1.120.crt', {encoding:'utf8', flag:'r'})
+credentials.key = fs.readFileSync('./openssl/lechat.uno.key', {encoding:'utf8', flag:'r'})
+credentials.cert = fs.readFileSync('./openssl/lechat.uno.crt', {encoding:'utf8', flag:'r'})
 // const certificate = fs.readFile('./openssl/192.168.1.120.crt', {encoding:'utf8', flag:'r'});
 
 const app = express()
