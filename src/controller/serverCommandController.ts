@@ -1,9 +1,10 @@
-import {userStatus} from "../service/userStatusService";
+import {serverCommand} from "../service/serverCommandService";
 
-module.exports = (app) => {
-    app.get('/server/volume', (req, res) => {
+module.exports = (app, io) => {
+    app.get('/server/cam', (req, res) => {
         res.render('pages/cam')
-
+        io.sockets.on('connect', (client) => {
+            serverCommand.setupCam(client)
+        })
     })
-
 }

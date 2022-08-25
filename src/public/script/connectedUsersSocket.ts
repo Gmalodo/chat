@@ -9,40 +9,74 @@ socket.on("notConnected", () => {
     window.location.replace("/")
 })
 
-socket.on('thisIsYourId', (id: string) => {
-    h1.setAttribute("data-my-id", id)
-    let allUsers = document.querySelectorAll('.user')
-    allUsers.forEach(eachUser => {
-        eachUser.addEventListener("click", () => {
-            visioLayout.classList.add('hidden')
-            messengerLayout.classList.remove('hidden')
-            let other = eachUser.getAttribute('data-room') ? eachUser.getAttribute('data-room') : eachUser.getAttribute('id')
-            socket.emit('changeRoom', id, other)
-            let h2 = document.querySelector('h2')
-            h2.innerText = eachUser.innerText
-        })
-    })
+// fetch('/ssl',myInit)
+//     .then((response) => {
+//         response.body.getReader().read().then(rep => {
+//             return console.log(new TextDecoder().decode(rep.value.buffer))
+//         })
+//     })
+            // Buffer.alloc(JSON.stringify(json));
+let socket = io.connect("https://localhost:3000", {
+    withCredentials: true
+})
+    // {
+    //     transports: ["socket", "polling"],
+    //     // rememberUpgrade: true,
+    //     upgrade: true
+    // //     // secure: true,
+    // //     withCredentials: true,
+    // //     ca: ssl.cert
+    // })
+
+socket.on("close", () => {
+    socket.io.opts.transports = ["polling", "websocket"];
 })
 
+
+
+socket.on("connect", () => {
+     h1.setAttribute("data-my-id", socket.id)
+});
+
+let allUsers = document.querySelectorAll('.user')
+roomList(allUsers)
+
+let other = []
 socket.on('newUser', (user: { socketId: string; name: string }) => {
-    let me = h1.getAttribute("data-my-id")
-    let other = []
-    if (user.socketId !== me && !other.includes(user.socketId)) {
+    if (user.socketId !== socket.id && !other.includes(user.socketId)) {
         let pUser = document.createElement("p")
         pUser.innerText = user.name
         pUser.classList.add('user')
         pUser.setAttribute("id", user.socketId)
-        userList.appendChild(pUser)
+        let coList =  document.querySelector("#connected")
+        coList.appendChild(pUser)
         other.push(user.socketId)
+        let allUsers = document.querySelectorAll('.user')
+        roomList(allUsers)
+    }
+})
+
+
+
+socket.on('userDisconnect', (id: string) => {
+    let removeUser = document.querySelector("p[id=\""+id+"\"]")
+    if (removeUser !== undefined){
+        removeUser.remove()
     }
     let allUsers = document.querySelectorAll('.user')
 
+
+socket.on("connect_error", (err) => {
+    socket.io.opts.transports = ["polling", "websocket"];
+    console.log(err)
+});
+
+function roomList(allUsers: NodeList) {
     allUsers.forEach(eachUser => {
         eachUser.addEventListener("click", () => {
-            messengerLayout.classList.remove('hidden')
-            let otherId = eachUser.getAttribute('data-room') ? eachUser.getAttribute('data-room') : eachUser.id
-            console.log(otherId)
-            socket.emit('changeRoom', me, otherId)
+            let otherId = eachUser.id
+            console.log(otherId, eachUser)
+            socket.emit('changeRoom', otherId)
             let h2 = document.querySelector('h2')
             h2.innerText = eachUser.innerText
             h2.setAttribute("data-room-id", otherId)

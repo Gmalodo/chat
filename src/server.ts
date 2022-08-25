@@ -14,13 +14,13 @@ import {Connected} from "./class/Connected";
 // Error.stackTraceLimit = Infinity;
 
 const credentials = { key: undefined, cert: undefined }
-credentials.key = fs.readFileSync('./openssl/lechat.uno.key', {encoding:'utf8', flag:'r'})
-credentials.cert = fs.readFileSync('./openssl/lechat.uno.crt', {encoding:'utf8', flag:'r'})
+credentials.key = fs.readFileSync('./src/ssl/192.168.1.120.key', {encoding:'utf8', flag:'r'})
+credentials.cert = fs.readFileSync('./src/ssl/192.168.1.120.crt', {encoding:'utf8', flag:'r'})
 // const certificate = fs.readFile('./openssl/192.168.1.120.crt', {encoding:'utf8', flag:'r'});
 
 const app = express()
 let server = createServer(credentials, app)
-const io = new SocketServer(server, {
+const io = new SocketServer(server,{
     cors: {
         origin: "https://localhost:3000",
         methods: ["GET", "POST"],
@@ -43,11 +43,12 @@ app.set('view engine', 'ejs')
 require('./middlewares/staticRoutes.js')(app, express)
 require('./middlewares/bodyParser.js')(app)
 require('./middlewares/socketSession.js')(app, io)
-app.use('/peerjs', peerServer);
+// app.use('/peerjs', peerServer);
 
 let status = new userStatus()
 // routes
 require('./controller/indexController')(app, user)
+require('./controller/serverCommandController')(app, io)
 require('./controller/homeController')(app, Connected)
 
 
@@ -56,8 +57,7 @@ io.sockets.on('connect', (client) => {
     user.setSocketId(client.id)
     Connected.setUser(user)
     let newUser = Connected.getAllInfo()[Connected.getAllInfo().length - 1]
-    client.emit("thisIsYourId", client.id)
-    io.emit("newUser" ,newUser)
+    client.broadcast.emit("newUser", newUser)
     user.unset()
 
     const chat = new chatService();

@@ -7,9 +7,9 @@ import {sysctrl} from "./systemService";
 export class userStatus {
     room(io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
          client: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) {
-        client.on('changeRoom', (user1, user2) => {
+        client.on('changeRoom', (user2) => {
             // client.leave(client.rooms[user1])
-            let room = sysctrl.getRoomId(user1, user2)
+            let room = sysctrl.getRoomId(client.id, user2)
             client.join(room)
             messagesFromRoom(room).then(msg => {
                 io.to(client.id).emit('connectToRoom', room, msg)

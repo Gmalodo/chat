@@ -1,7 +1,9 @@
-<script src="https://unpkg.com/peerjs@1.4.5/dist/peerjs.min.js"></script>
-<script src="https://192.168.29.254:3000/socket.io/socket.io.js"></script>
 <script type="module">
-    import { io } from "https://cdn.socket.io/4.5.1/socket.io.esm.min.js";
+    // import { io } from "https://cdn.socket.io/4.5.1/socket.io.esm.min.js";
+    // import { io } from "/socket.io/socket.io-client";
+    // import * as fs from '/';
+// let fs = fileReader
+    import { Peer } from "peerjs";
 </script>
 <%- include('layouts/header') %>
 <div class="page">
@@ -13,6 +15,9 @@
 <script>
     let exports = {"__esModule": true};
 </script>
+<script src="https://unpkg.com/peerjs@1.4.5/dist/peerjs.min.js"></script>
+<script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+<script src="https://localhost:3000/socket.io/socket.io.js"></script>
 <script src="assets/script/connectedUsersSocket.js"></script>
 <script src="assets/script/chat.js"></script>
 <script src="assets/script/visio.js"></script>

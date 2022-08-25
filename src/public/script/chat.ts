@@ -1,5 +1,5 @@
-let submitInput = document.querySelector("input[type='submit']")
-let divChat = document.querySelector('.messages')
+const submitInput = document.querySelector("input[type='submit']")
+const divChat = document.querySelector('.messages')
 
 submitInput.addEventListener('click', () => {
     let inputMessage = document.querySelector("input[type='text']")
@@ -25,14 +25,15 @@ socket.on('MsgNotification', (type: string, userId: string) => {
 socket.on('connectToRoom', (roomId: string, messages: object) => {
     let h2 = document.querySelector('h2')
     h2.setAttribute("data-room-id", roomId)
-    Object.entries(messages).forEach(message => {
-        if (message[1].sendBy == document.querySelector("h1").getAttribute("data-my-id")){
-            newMsg(message[1].message, "sent")
-        }
-        else {
-            newMsg(message[1].message, "received")
-        }
-    })
+    if (messages) {
+        Object.entries(messages).forEach(message => {
+            if (message[1].sendBy == document.querySelector("h1").getAttribute("data-my-id")) {
+                newMsg(message[1].message, "sent")
+            } else {
+                newMsg(message[1].message, "received")
+            }
+        })
+    }
 })
 
 
