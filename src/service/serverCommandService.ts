@@ -7,7 +7,7 @@ export class serverCommand {
 
     static setupCam(socket) {
         this.cap = new cv.VideoCapture(0)
-        this.cap.set(3, 640)
+        this.cap.set(3, 620)
         this.cap.set(4, 480)
 
         setInterval(() => {
@@ -31,6 +31,7 @@ export class serverCommand {
                 if (volume < 5){volume = 0}
                 else if (volume > 100){volume = 100}
 
+                console.log(volume)
                 exec(`amixer sset 'Master' ${volume}%`)
                 
             }

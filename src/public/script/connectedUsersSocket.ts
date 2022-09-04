@@ -59,12 +59,12 @@ socket.on('newUser', (user: { socketId: string; name: string }) => {
 
 
 socket.on('userDisconnect', (id: string) => {
-    let removeUser = document.querySelector("p[id=\""+id+"\"]")
-    if (removeUser !== undefined){
+    let removeUser = document.querySelector("p[id=\"" + id + "\"]")
+    if (removeUser !== undefined) {
         removeUser.remove()
     }
     let allUsers = document.querySelectorAll('.user')
-
+})
 
 socket.on("connect_error", (err) => {
     socket.io.opts.transports = ["polling", "websocket"];
@@ -82,7 +82,7 @@ function roomList(allUsers: NodeList) {
             h2.setAttribute("data-room-id", otherId)
         })
     })
-})
+}
 
 
 socket.on('userDisconnect', (id: string) => {
