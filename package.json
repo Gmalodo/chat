@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon ./dist/server.js\"",
-    "start": "nodemon server.ts"
+    "start": "./dist/server.js"
   },
   "keywords": [],
   "author": "",

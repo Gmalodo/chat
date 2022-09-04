@@ -6,6 +6,9 @@ frame.crossOrigin = "anonymous"
 frame.height = 480
 frame.width = 640
 
+
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const canvasCtx = canvasElement.getContext('2d');
 const page = document.querySelector(".page")
 let hands = new Hands({
     locateFile: (file) => {
@@ -24,11 +27,24 @@ camSocket.on('newImage', (image) => {
     hands.send({image: frame})
     img.src = frame.src
     page.appendChild(img)
+    canvasCtx.save();
 })
 
 hands.onResults((results) => {
-    console.log(results)
     if (results["multiHandLandmarks"][0] !== undefined) {
         camSocket.emit("handsPosition", results)
     }
+
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.drawImage(
+        results.image, 0, 0, canvasElement.width, canvasElement.height);
+    if (results.multiHandLandmarks) {
+        for (const landmarks of results.multiHandLandmarks) {
+            drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
+                {color: '#00FF00', lineWidth: 0.5});
+            drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 0.1});
+        }
+    }
+    canvasCtx.restore();
+
 })
