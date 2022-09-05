@@ -6,22 +6,22 @@ import {connect} from "mongoose";
 import fs from "fs";
 import {Server as SocketServer} from "socket.io"
 import {config} from "dotenv";
-// import {createServer} from "https";
-import {createServer} from "http";
+import {createServer} from "https";
+// import {createServer} from "http";
 import dotenv from "dotenv"
 import {User} from "./class/User";
 import {Connected} from "./class/Connected";
 
 // Error.stackTraceLimit = Infinity;
 
-// const credentials = { key: undefined, cert: undefined }
-// credentials.key = fs.readFileSync('./src/ssl/192.168.1.120.key', {encoding:'utf8', flag:'r'})
-// credentials.cert = fs.readFileSync('./src/ssl/192.168.1.120.crt', {encoding:'utf8', flag:'r'})
+const credentials = { key: undefined, cert: undefined }
+credentials.key = fs.readFileSync('./src/ssl/192.168.1.120.key', {encoding:'utf8', flag:'r'})
+credentials.cert = fs.readFileSync('./src/ssl/192.168.1.120.crt', {encoding:'utf8', flag:'r'})
 // const certificate = fs.readFile('./openssl/192.168.1.120.crt', {encoding:'utf8', flag:'r'});
 
 const app = express()
-// let server = createServer(credentials, app)
-let server = createServer(app)
+let server = createServer(credentials, app)
+// let server = createServer(app)
 const io = new SocketServer(server,{
     cors: {
         origin: "https://localhost:3000",

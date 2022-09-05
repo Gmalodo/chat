@@ -3,18 +3,18 @@ import {VideoCapture} from "opencv4nodejs";
 import * as M from "@math.gl/core"
 import {exec} from "child_process";
 export class serverCommand {
-    private static cap: VideoCapture;
+    // private static cap: VideoCapture;
 
     static setupCam(socket) {
-        this.cap = new cv.VideoCapture(0)
-        this.cap.set(3, 620)
-        this.cap.set(4, 480)
+        // this.cap = new cv.VideoCapture(0)
+        // this.cap.set(3, 620)
+        // this.cap.set(4, 480)
 
-        setInterval(() => {
-            let frame = this.cap.read()
-            let image = cv.imencode(".jpg", frame).toString("base64")
-            socket.emit('newImage', image)
-        }, 1000 / 10)
+        // setInterval(() => {
+        //     let frame = this.cap.read()
+        //     let image = cv.imencode(".jpg", frame).toString("base64")
+        //     socket.emit('newImage', image)
+        // }, 1000 / 10)
 
         socket.on("handsPosition", (hands) => {
             if (hands["multiHandLandmarks"][0] !== undefined) {
