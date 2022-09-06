@@ -16,9 +16,6 @@ socket.on("notConnected", () => {
 //         })
 //     })
             // Buffer.alloc(JSON.stringify(json));
-let socket = io.connect("https://localhost:3000", {
-    withCredentials: true
-})
     // {
     //     transports: ["socket", "polling"],
     //     // rememberUpgrade: true,

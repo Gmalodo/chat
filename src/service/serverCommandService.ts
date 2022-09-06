@@ -2,6 +2,7 @@ import * as cv from 'opencv4nodejs'
 import {VideoCapture} from "opencv4nodejs";
 import * as M from "@math.gl/core"
 import {exec} from "child_process";
+import puppeteer from "puppeteer";
 export class serverCommand {
     // private static cap: VideoCapture;
 
@@ -15,7 +16,7 @@ export class serverCommand {
         //     let image = cv.imencode(".jpg", frame).toString("base64")
         //     socket.emit('newImage', image)
         // }, 1000 / 10)
-
+        console.log("image recue")
         socket.on("handsPosition", (hands) => {
             if (hands["multiHandLandmarks"][0] !== undefined) {
                 let poucePosition = new M.Vector3(

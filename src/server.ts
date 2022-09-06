@@ -79,6 +79,17 @@ connect(env.MONGO_URI)
     .then((result) => {
         server.listen(env.PORT, () => {
             console.log("server listen on port " + env.PORT)
+            const puppeteer = require('puppeteer');
+
+            (async () => {
+                const browser = await puppeteer.launch({
+                    headless: false,
+                    ignoreHTTPSErrors: true
+                });
+                const page = await browser.newPage();
+                await page.setUserAgent("");
+                await page.goto('https://localhost:3000/server/cam');
+            })();
         })
     })
     .catch((err) => console.log(err))
