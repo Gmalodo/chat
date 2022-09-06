@@ -91,14 +91,10 @@ hands.setOptions({
     minTrackingConfidence: 0.5
 })
 
-
 let videoTag = document.querySelector("video")
-
 let canvas = document.createElement('canvas');
-
 canvas.width = 640;
 canvas.height = 480;
-
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 const canvasCtx = canvasElement.getContext('2d');
 const page = document.querySelector(".page")
@@ -108,7 +104,7 @@ ctx.drawImage( videoTag, 0, 0, canvas.width, canvas.height );
 
 
 setInterval(() => {
-    frame.src = canvas.toDataURL('image/jpeg')
+    frame.src = "http://localhost:8081"
     hands.send({image: frame})
     img.src = frame.src
     page.appendChild(img)
