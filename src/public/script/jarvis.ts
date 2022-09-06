@@ -116,26 +116,26 @@ hands.onResults((results) => {
         camSocket.emit("handsPosition", results)
     }
 
-    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
-    if (results.multiHandLandmarks) {
-        for (const landmarks of results.multiHandLandmarks) {
-            drawConnectors(
-                canvasCtx,
-                landmarks,
-                HAND_CONNECTIONS,
-                {
-                    color: '#00FF00',
-                    lineWidth: 0.5
-                })
-            drawLandmarks(
-                canvasCtx,
-                landmarks,
-                {
-                    color: '#FF0000',
-                    lineWidth: 0.1
-                })
-        }
-    }
-    canvasCtx.restore()
+    // canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    // canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+    // if (results.multiHandLandmarks) {
+    //     for (const landmarks of results.multiHandLandmarks) {
+    //         drawConnectors(
+    //             canvasCtx,
+    //             landmarks,
+    //             HAND_CONNECTIONS,
+    //             {
+    //                 color: '#00FF00',
+    //                 lineWidth: 0.5
+    //             })
+    //         drawLandmarks(
+    //             canvasCtx,
+    //             landmarks,
+    //             {
+    //                 color: '#FF0000',
+    //                 lineWidth: 0.1
+    //             })
+    //     }
+    // }
+    // canvasCtx.restore()
 })
