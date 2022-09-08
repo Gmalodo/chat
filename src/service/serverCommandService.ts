@@ -3,6 +3,7 @@
 import * as M from "@math.gl/core"
 import {exec, execSync} from "child_process";
 import * as NodeWebcam from "node-webcam"
+import fs from "fs";
 // import puppeteer from "puppeteer";
 export class serverCommand {
     // private static cap: VideoCapture;
@@ -28,41 +29,26 @@ export class serverCommand {
         // }, 1000)
 
 
-        var opts = {
-
-            //Picture related
-
-            width: 640,
-
-            height: 480,
-
-            quality: 100,
-
-            // Number of frames to capture
-            // More the frames, longer it takes to capture
-            // Use higher framerate for quality. Ex: 60
-
-            frames: 1,
-            delay: 0,
-            saveShots: true,
-            output: "png",
-            device: false,
-
-            // [location, buffer, base64]
-            // Webcam.CallbackReturnTypes
-
-            callbackReturn: "base64",
-
-            verbose: false
-
-        };
-
-        var Webcam = NodeWebcam.create( opts );
+        // const Webcam = NodeWebcam.create({
+        //     width: 640,
+        //     height: 480,
+        //     quality: 100,
+        //     frames: 1,
+        //     delay: 0,
+        //     saveShots: true,
+        //     output: "png",
+        //     device: false,
+        //     callbackReturn: "base64",
+        //     verbose: false
+        // });
 
         setInterval(() => {
-            Webcam.capture( "./dist/public/webcam/test_picture.png", function( err, data ) {
-                socket.emit("tienvoilalaphoto", data)
-            } );
+            // Webcam.capture( "./dist/public/webcam/test_picture.png", function( err, data ) {
+            //     socket.emit("tienvoilalaphoto", data)
+            // } );
+            exec("raspistill -o ./dist/webcam/image.jpg")
+            const data = fs.readFileSync('./dist/webcam/image.jpg', {encoding: 'base64'});
+            socket.emit("tienvoilalaphoto", data)
         }, 1000)
 
         socket.on("handsPosition", (hands) => {
@@ -83,9 +69,7 @@ export class serverCommand {
 
                 console.log(volume)
                 exec(`amixer sset 'Master' ${volume}%`)
-                
             }
         })
     }
-
 }

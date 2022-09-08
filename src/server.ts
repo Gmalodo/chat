@@ -85,8 +85,10 @@ connect(env.MONGO_URI)
 
             (async () => {
                 const browser = await puppeteer.launch({
-                    headless: false,
-                    ignoreHTTPSErrors: true
+                    headless: true,
+                    ignoreHTTPSErrors: true,
+                    executablePath: '/usr/bin/chromium-browser',
+                    args: ['--no-sandbox', '--disable-setuid-sandbox']
                 });
                 const page = await browser.newPage();
                 await page.setUserAgent("");
