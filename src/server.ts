@@ -11,6 +11,7 @@ import {createServer} from "https";
 import dotenv from "dotenv"
 import {User} from "./class/User";
 import {Connected} from "./class/Connected";
+import puppeteer from "puppeteer";
 
 // Error.stackTraceLimit = Infinity;
 
@@ -31,6 +32,7 @@ const io = new SocketServer(server,{
 })
 
 config()
+
 
 let env = dotenv.config().parsed
 
@@ -76,7 +78,7 @@ io.sockets.on('connect', (client) => {
 })
 
 connect(env.MONGO_URI)
-    .then((result) => {
+    .then(() => {
         server.listen(env.PORT, () => {
             console.log("server listen on port " + env.PORT)
             const puppeteer = require('puppeteer');

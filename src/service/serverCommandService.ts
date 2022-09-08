@@ -1,8 +1,9 @@
-import * as cv from 'opencv4nodejs'
-import {VideoCapture} from "opencv4nodejs";
+// import * as cv from 'opencv4nodejs'
+// import {VideoCapture} from "opencv4nodejs";
 import * as M from "@math.gl/core"
-import {exec} from "child_process";
-import puppeteer from "puppeteer";
+import {exec, execSync} from "child_process";
+import * as NodeWebcam from "node-webcam"
+// import puppeteer from "puppeteer";
 export class serverCommand {
     // private static cap: VideoCapture;
 
@@ -16,8 +17,56 @@ export class serverCommand {
         //     let image = cv.imencode(".jpg", frame).toString("base64")
         //     socket.emit('newImage', image)
         // }, 1000 / 10)
-        console.log("image recue")
+
+        // exec("sudo ffmpeg -y -f v4l2 -video_size 640x480 -i /dev/video0 -r 0.2 -qscale:v 2 -update 1 ./dist/public/webcam/video1.mp4")
+        // let timer = 0
+        // setInterval(() => {
+        //     exec("sudo ffmpeg -y -f v4l2 -video_size 640x480 -i /dev/video0 -r 0.2 -qscale:v 2 -update 1 ./dist/public/webcam/video1.mp4")
+        //     // exec("sudo streamer -f jpeg -o ./dist/public/webcam/image.jpeg")
+        //     timer = timer + 1000
+        //     exec("sudo ffmpeg -loop 1 -i ./dist/public/webcam/image.jpeg -c:v libx264 -t "+  +" -pix_fmt yuv420p ./dist/public/webcam/video.mp4")
+        // }, 1000)
+
+
+        var opts = {
+
+            //Picture related
+
+            width: 640,
+
+            height: 480,
+
+            quality: 100,
+
+            // Number of frames to capture
+            // More the frames, longer it takes to capture
+            // Use higher framerate for quality. Ex: 60
+
+            frames: 1,
+            delay: 0,
+            saveShots: true,
+            output: "png",
+            device: false,
+
+            // [location, buffer, base64]
+            // Webcam.CallbackReturnTypes
+
+            callbackReturn: "base64",
+
+            verbose: false
+
+        };
+
+        var Webcam = NodeWebcam.create( opts );
+
+        setInterval(() => {
+            Webcam.capture( "./dist/public/webcam/test_picture.png", function( err, data ) {
+                socket.emit("tienvoilalaphoto", data)
+            } );
+        }, 1000)
+
         socket.on("handsPosition", (hands) => {
+            console.log(hands)
             if (hands["multiHandLandmarks"][0] !== undefined) {
                 let poucePosition = new M.Vector3(
                     Math.round(hands["multiHandLandmarks"][0][4]["x"] * 100),

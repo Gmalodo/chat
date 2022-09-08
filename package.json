@@ -25,6 +25,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.5.1",
     "node-audio-volume-mixer": "^1.0.3",
+    "node-webcam": "^0.8.1",
     "nodemon": "^2.0.19",
     "opencv-build": "^0.1.9",
     "peer": "^0.6.1",
