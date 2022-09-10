@@ -2,8 +2,8 @@
 // import {VideoCapture} from "opencv4nodejs";
 import * as M from "@math.gl/core"
 import {exec, execSync} from "child_process";
-import * as NodeWebcam from "node-webcam"
 import fs from "fs";
+import * as Cam from  "pi-camera"
 // import puppeteer from "puppeteer";
 export class serverCommand {
     // private static cap: VideoCapture;
@@ -41,14 +41,25 @@ export class serverCommand {
         //     callbackReturn: "base64",
         //     verbose: false
         // });
+        const myCamera = new Cam({
+            mode: 'photo',
+            output: `./dist/webcam/test.jpg`,
+            width: 640,
+            height: 480,
+            nopreview: true,
+        });
+
 
         setInterval(() => {
             // Webcam.capture( "./dist/public/webcam/test_picture.png", function( err, data ) {
             //     socket.emit("tienvoilalaphoto", data)
             // } );
-            exec("raspistill -o ./dist/webcam/image.jpg")
-            const data = fs.readFileSync('./dist/webcam/image.jpg', {encoding: 'base64'});
-            socket.emit("tienvoilalaphoto", data)
+            // exec("raspistill -o ./dist/webcam/image.jpg")
+            myCamera.snap()
+                .then((result) => {
+                    const data = fs.readFileSync(result, {encoding: 'base64'});
+                    socket.emit("tienvoilalaphoto", data)                })
+
         }, 1000)
 
         socket.on("handsPosition", (hands) => {

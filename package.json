@@ -28,6 +28,7 @@
     "node-webcam": "^0.8.1",
     "nodemon": "^2.0.19",
     "peer": "^0.6.1",
+    "pi-camera": "^1.7.0",
     "puppeteer": "^17.1.1",
     "socket.io": "^4.5.1",
     "socket.io-client": "^4.5.1",
