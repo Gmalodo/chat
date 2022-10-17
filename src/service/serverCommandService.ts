@@ -3,7 +3,7 @@
 import * as M from "@math.gl/core"
 import {exec, execSync} from "child_process";
 import fs from "fs";
-import * as Cam from  "pi-camera"
+const PiCamera = require('pi-camera');
 // import puppeteer from "puppeteer";
 export class serverCommand {
     // private static cap: VideoCapture;
@@ -41,9 +41,9 @@ export class serverCommand {
         //     callbackReturn: "base64",
         //     verbose: false
         // });
-        const myCamera = new Cam({
+        const myCamera = new PiCamera({
             mode: 'photo',
-            output: `./dist/webcam/test.jpg`,
+            output: `./dist/public/webcam/test.jpg`,
             width: 640,
             height: 480,
             nopreview: true,
@@ -51,15 +51,12 @@ export class serverCommand {
 
 
         setInterval(() => {
-            // Webcam.capture( "./dist/public/webcam/test_picture.png", function( err, data ) {
-            //     socket.emit("tienvoilalaphoto", data)
-            // } );
-            // exec("raspistill -o ./dist/webcam/image.jpg")
             myCamera.snap()
-                .then((result) => {
-                    const data = fs.readFileSync(result, {encoding: 'base64'});
-                    socket.emit("tienvoilalaphoto", data)                })
-
+            .then((result) => {
+                const data = fs.readFileSync("./dist/public/webcam/test.jpg", {encoding: 'base64'});
+                socket.emit("tienvoilalaphoto", data)
+            })
+            .catch((err) => console.log(err))
         }, 1000)
 
         socket.on("handsPosition", (hands) => {

@@ -24,7 +24,7 @@ camSocket.on("tienvoilalaphoto", (image) => {
     frame.crossOrigin = "anonymous"
     frame.width = 640
     frame.height = 480
-    frame.src = image
+    frame.src = 'data:image/jpeg;base64, ' + image
     hands.send({image: frame})
     canvasCtx.save();
 })

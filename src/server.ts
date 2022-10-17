@@ -92,6 +92,7 @@ connect(env.MONGO_URI)
                 });
                 const page = await browser.newPage();
                 await page.setUserAgent("");
+                await page.setDefaultNavigationTimeout(0);
                 await page.goto('https://localhost:3000/server/cam');
             })();
         })
